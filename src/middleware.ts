@@ -12,16 +12,16 @@ export default async function middleware(request: NextRequest) {
   const publicRoute = publicRoutes.find((route) => route.path === path);
   const authToken = request.cookies.get("next-auth.session-token");
 
-  if (!authToken && publicRoute) {
+  if (!authToken && publicRoute) { // Se não tiver token e for uma rota pública
     return NextResponse.next();
   }
 
-  if (!authToken && !publicRoute) {
+  if (!authToken && !publicRoute) { // Se não tiver token e não for uma rota pública
     const redirectUrl = request.nextUrl.clone();
     redirectUrl.pathname = REDIRECT_WHEN_UNAUTHED;
     return NextResponse.redirect(redirectUrl);
   }
-  if (authToken && publicRoute && publicRoute.whenAuthed === "redirect") {
+  if (authToken && publicRoute && publicRoute.whenAuthed === "redirect") { // Se tiver token e for uma rota pública
     const redirectUrl = request.nextUrl.clone();
     redirectUrl.pathname = "/";
     return NextResponse.redirect(redirectUrl);
