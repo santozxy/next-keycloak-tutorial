@@ -31,6 +31,7 @@ export const authOptions: NextAuthOptions = {
     },
     session: async ({ session, token }) => {
       // A sessão recebe o token personalizado persistido no cookie evitando a necessidade de fazer login toda vez que a página é recarregada
+      console.log(token)
       session.user = token.user as Auth["user"];
       session.token = token.backendToken as string;
       session.expires = token.expires as string;
